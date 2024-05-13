@@ -28,7 +28,17 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public int register(ArticleDTO articleDTO){
+
         Article article = modelMapper.map(articleDTO, Article.class);
+
+        User user = User.builder()
+                    .uid(articleDTO.getWriter())
+                    .build();
+
+        article.setWriter(user);
+
+        log.info(article);
+
         Article savedArticle = articleRepository.save(article);
         return savedArticle.getNo();
     }
